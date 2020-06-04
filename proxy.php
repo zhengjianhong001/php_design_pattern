@@ -15,11 +15,13 @@ class Proxy{
     private $real_subject = null;
 
     public function request(){
-        if ($real_subject == null) {
-            $real_subject = new RealSubject();
+        if ($this->real_subject == null) {
+            $this->real_subject = new RealSubject();
         }
 
-        $real_subject->request();
+        $this->pre_request();
+        $this->real_subject->request();
+        $this->final_request();
     }
 
     public function pre_request(){
@@ -30,3 +32,7 @@ class Proxy{
         echo "访问真实主题之前的后续处理<br>";
     }
 }
+
+// 客户端调用
+$proxy = new Proxy();
+$proxy->request();
